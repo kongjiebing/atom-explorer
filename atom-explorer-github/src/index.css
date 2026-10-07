@@ -1,0 +1,297 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #070b14;
+  color: #e8eef7;
+  font-family: "Inter", system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ambient background glow */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(34, 211, 238, 0.08), transparent 42%),
+    radial-gradient(circle at 82% 70%, rgba(251, 191, 36, 0.06), transparent 42%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0f1622;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2939;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a3a52;
+}
+
+/* Range slider styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: #1e2939;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #22d3ee;
+  border: 3px solid #070b14;
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #22d3ee;
+  border: 3px solid #070b14;
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
+  cursor: pointer;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 font-semibold text-bg transition hover:bg-cyan-300 hover:shadow-glow active:scale-95;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line px-5 py-2.5 font-medium text-ink transition hover:border-accent hover:text-accent;
+  }
+  .card {
+    @apply rounded-xl border border-line bg-surface/70 p-5 backdrop-blur-sm;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface2/60 px-3 py-1 font-mono text-xs text-muted;
+  }
+}
+
+/* Typing cursor for AI tutor */
+.typing-cursor::after {
+  content: "▋";
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  color: #22d3ee;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Page transition animation */
+main > * {
+  animation: fadeIn 0.4s ease-out;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Card hover glow effect */
+.card {
+  transition: all 0.3s ease;
+}
+
+/* Smooth link transitions */
+a {
+  transition: all 0.2s ease;
+}
+
+/* Selection highlight */
+::selection {
+  background: rgba(34, 211, 238, 0.3);
+  color: #e8eef7;
+}
+
+/* Focus ring */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(34, 211, 238, 0.5);
+  outline-offset: 2px;
+}
+
+/* 突发故障弹窗震动 */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+/* 反应堆核心脉冲光环 */
+@keyframes ringPulse {
+  0% { transform: scale(0.85); opacity: 0.8; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+.animate-ring {
+  animation: ringPulse 1.6s ease-out infinite;
+}
+
+/* 星级弹出 */
+@keyframes starPop {
+  0% { transform: scale(0) rotate(-30deg); opacity: 0; }
+  60% { transform: scale(1.3) rotate(8deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+.animate-star {
+  animation: starPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+
+/* 能量粒子轨道（--a 起始角 / --d 轨道半径，纯 transform 动画，GPU 合成） */
+@keyframes orbit {
+  from { transform: rotate(var(--a)) translateX(var(--d)); }
+  to { transform: rotate(calc(var(--a) + 360deg)) translateX(var(--d)); }
+}
+.animate-orbit {
+  animation: orbit 3s linear infinite;
+}
+
+/* 核心呼吸脉冲（transform 缩放，避免重绘卡顿） */
+@keyframes corePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.animate-core-pulse {
+  animation: corePulse 2.2s ease-in-out infinite;
+}
+
+/* 蒸汽上升 */
+@keyframes steamRise {
+  0% { transform: translateY(8px) scale(0.6); opacity: 0; }
+  30% { opacity: 0.55; }
+  100% { transform: translateY(-36px) scale(1.4); opacity: 0; }
+}
+.animate-steam {
+  animation: steamRise 2.4s ease-out infinite;
+}
+
+/* ============ 城市能源 · 夜景互动场景 ============ */
+/* 星星闪烁 */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+.star {
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+
+/* 冷却塔蒸汽上升（SVG 元素按自身包围盒定位） */
+.steam {
+  animation: steamRise 3s ease-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* 输电网电流流动 */
+@keyframes dashFlow {
+  to { stroke-dashoffset: -52; }
+}
+.energy-wire {
+  animation: dashFlow 1.8s linear infinite;
+}
+
+/* 电站轮廓悬停揭示内部细节 */
+.silhouette-hover .detail-hidden {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.silhouette-hover:hover .detail-hidden,
+.silhouette-hover:focus-within .detail-hidden {
+  opacity: 1;
+}
+
+/* 地标航空灯 / 安全警示灯闪烁（复用现有 blink） */
+.beacon {
+  animation: blink 1.4s ease-in-out infinite;
+}
+
+/* 摩天轮缓慢旋转 */
+@keyframes wheelSpin {
+  to { transform: rotate(360deg); }
+}
+.wheel-spin {
+  animation: wheelSpin 26s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* 反应堆穹顶脉冲光晕 */
+@keyframes plantPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+}
+.plant-pulse {
+  animation: plantPulse 2.8s ease-in-out infinite;
+}
+
+/* 建筑逐栋升起（切换城市时新增建筑递进出现） */
+@keyframes buildRise {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.build-rise {
+  animation: buildRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+/* 城市窗户零星闪烁 */
+@keyframes winFlicker {
+  0%, 100% { opacity: 1; }
+  42% { opacity: 0.35; }
+  58% { opacity: 0.85; }
+}
+.win-flicker {
+  animation: winFlicker 5.5s ease-in-out infinite;
+}
+
+/* 减排账单卡片翻页：从右滑入 + 淡入（切换城市规模时"翻到下一张"） */
+@keyframes cardSwipeIn {
+  0% { opacity: 0; transform: translateX(32px) scale(0.985); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+.card-swipe-in {
+  animation: cardSwipeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
